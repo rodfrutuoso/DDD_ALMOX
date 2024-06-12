@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "../../core/entities/unique-entity-id";
 import { TransferRegister } from "../entities/transfer-register";
 import { TransferRegisterRepository } from "../repositories/transfer-register-repository";
 
@@ -19,14 +20,12 @@ export class TransferMaterialUseCase {
     observation,
     value,
   }: TransferMaterialUseCaseRequest) {
-    const now = new Date();
-    const transferRegister = new TransferRegister({
-      projectId,
-      materialId,
-      storekeeperId,
+    const transferRegister = TransferRegister.create({
+      projectId: new UniqueEntityID(projectId),
+      materialId: new UniqueEntityID(materialId),
+      storekeeperId: new UniqueEntityID(storekeeperId),
       observation,
       value,
-      transferDate: now,
     });
 
     await this.transferRegisterRepository.create(transferRegister);

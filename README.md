@@ -20,3 +20,6 @@ domaim driven design for almox
 - deve ser possível visualizar as movimentações de entrada de saída de materiias
 - a visualização de movimentações poderá ser filtrada por data, projeto, material ou almoxarife
 - deve ser possível extrair os dados de orçamento e saída de material
+
+# links uteis
+https://expressjs.com/en/resources/middleware/cors.html 

@@ -1,27 +1,36 @@
-import { randomUUID } from "node:crypto";
+import { Entity } from "../../core/entities/entity";
 
 interface ProjectProps {
   project_number: string;
   description: string;
+  type: string;
   base: string;
   city: string;
   active: boolean;
 }
 
-export class Project {
-  public id: string;
-  public project_number: string;
-  public description: string;
-  public base: string;
-  public city: string;
-  public active: boolean;
+export class Project extends Entity<ProjectProps> {
+  get project_number() {
+    return this.props.project_number;
+  }
 
-  constructor(props: ProjectProps, id?: string) {
-    this.id = id ?? randomUUID();
-    this.project_number = props.project_number;
-    this.description = props.description;
-    this.base = props.base;
-    this.city = props.city;
-    this.active = props.active;
+  get type() {
+    return this.props.type;
+  }
+
+  get description() {
+    return this.props.description;
+  }
+
+  get base() {
+    return this.props.base;
+  }
+
+  get city() {
+    return this.props.city;
+  }
+
+  get active() {
+    return this.props.active;
   }
 }

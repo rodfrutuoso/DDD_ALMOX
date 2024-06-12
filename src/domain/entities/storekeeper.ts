@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { Entity } from "../../core/entities/entity";
 
 interface StorekeeperProps {
   name: string;
@@ -6,16 +6,17 @@ interface StorekeeperProps {
   cpf: number;
 }
 
-export class Storkeeper {
-  public id: string;
-  public name: string;
-  public email: string;
-  public cpf: number;
-
-  constructor(props: StorekeeperProps, id?: string) {
-    this.id = id ?? randomUUID();
-    this.name = props.name;
-    this.email = props.email;
-    this.cpf = props.cpf;
+export class Storkeeper extends Entity<StorekeeperProps> {
+  get name() {
+    return this.props.name;
   }
+
+  get email() {
+    return this.props.email;
+  }
+
+  get cpf() {
+    return this.props.cpf;
+  }
+
 }
