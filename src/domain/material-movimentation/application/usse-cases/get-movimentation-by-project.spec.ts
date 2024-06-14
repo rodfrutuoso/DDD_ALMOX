@@ -1,29 +1,51 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { TransferMaterialUseCase } from "./transfer-material";
-import { InMemoryMaterialRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
+import { GetMovimentationByProjectidUseCase } from "./get-movimentation-by-project";
+import { InMemoryProjectRepository } from "../../../../../test/repositories/in-memory-project-repository";
+import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
+import { Project } from "../../enterprise/entities/project";
+import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
+import { makeProject } from "../../../../../test/factories/meke-project";
 
-let inMeomoryMovimentationRepository: InMemoryMaterialRepository;
-let sut: TransferMaterialUseCase;
+let inMeomoryProjectRepository: InMemoryProjectRepository;
+let inMemoryMovimentationRepository: InMemoryMovimentationRepository;
+let sut: GetMovimentationByProjectidUseCase;
 
 describe("Get Movimentation by project", () => {
   beforeEach(() => {
-    inMeomoryMovimentationRepository = new InMemoryMaterialRepository();
-    sut = new TransferMaterialUseCase(
-      inMeomoryMovimentationRepository
+    inMeomoryProjectRepository = new InMemoryProjectRepository();
+    inMemoryMovimentationRepository = new InMemoryMovimentationRepository();
+    sut = new GetMovimentationByProjectidUseCase(
+      inMemoryMovimentationRepository,
+      inMeomoryProjectRepository
     );
   });
 
-  it("should be able to transfer a material", async () => {
-    const { movimentation } = await sut.execute({
-      projectId: "1",
-      materialId: "4",
-      storekeeperId: "5",
-      observation: "Material Movimentado",
+  it("should be able to get an array of movimentations by project", async () => {
+    const newProject = makeProject({ project_number: "B-10101010" });
+
+    await inMeomoryProjectRepository.create(newProject);
+
+    const newMovimentation1 = makeMovimentation({
+      projectId: newProject.id,
       value: 5,
     });
+    const newMovimentation2 = makeMovimentation({ projectId: newProject.id });
+    const newMovimentation3 = makeMovimentation({
+      projectId: newProject.id,
+      observation: "Movimentado",
+    });
 
-    expect(movimentation.value).toEqual(5);
-    expect(movimentation.observation).toEqual("Material Movimentado");
-    expect(inMeomoryMovimentationRepository.items[0].id).toBeTruthy()
+    await inMemoryMovimentationRepository.create(newMovimentation1);
+    await inMemoryMovimentationRepository.create(newMovimentation2);
+    await inMemoryMovimentationRepository.create(newMovimentation3);
+
+    const { movimentations } = await sut.execute({
+      project_number: "B-10101010",
+    });
+
+    expect(movimentations[0].value).toEqual(5);
+    expect(movimentations[2].observation).toEqual("Movimentado");
+    expect(inMeomoryProjectRepository.items[0].id).toBeTruthy();
+    expect(inMemoryMovimentationRepository.items[2].id).toBeTruthy();
   });
 });

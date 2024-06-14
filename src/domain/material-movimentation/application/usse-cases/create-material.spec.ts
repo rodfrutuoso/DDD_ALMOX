@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, it, test } from "vitest";
 import { CreateMaterialUseCase } from "./create-material";
 import { MaterialRepository } from "../repositories/material-repository";
 import { Material } from "../../enterprise/entities/material";
@@ -13,7 +13,7 @@ describe("Create Material", () => {
     sut = new CreateMaterialUseCase(inMemoryMaterialRepository);
   });
 
-  test("transfer a material", async () => {
+  it("sould be able to create a material", async () => {
     const createMaterial = new CreateMaterialUseCase(
       inMemoryMaterialRepository
     );

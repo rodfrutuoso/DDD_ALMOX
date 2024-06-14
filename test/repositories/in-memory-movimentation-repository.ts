@@ -2,7 +2,9 @@ import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
 import { MovimentationRepository } from "../../src/domain/material-movimentation/application/repositories/movimentation-repository";
 import { Movimentation } from "../../src/domain/material-movimentation/enterprise/entities/movimentation";
 
-export class InMemoryMaterialRepository implements MovimentationRepository {
+export class InMemoryMovimentationRepository
+  implements MovimentationRepository
+{
   public items: Movimentation[] = [];
 
   async findByProject(projectid: UniqueEntityID): Promise<Movimentation[]> {

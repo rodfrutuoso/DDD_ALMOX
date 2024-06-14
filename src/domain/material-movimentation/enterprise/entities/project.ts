@@ -1,7 +1,7 @@
 import { Entity } from "../../../../core/entities/entity";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 
-interface ProjectProps {
+export interface ProjectProps {
   project_number: string;
   description: string;
   type: string;

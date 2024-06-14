@@ -4,11 +4,11 @@ import { MovimentationRepository } from "../repositories/movimentation-repositor
 import { ProjectRepository } from "../repositories/project-repository";
 
 interface GetMovimentationByProjectNameUseCaseRequest {
-  projectid: UniqueEntityID;
+  project_number: string;
 }
 
 interface GetMovimentationByProjectNameUseCaseResponse {
-  movimentation: Movimentation[];
+  movimentations: Movimentation[];
 }
 
 export class GetMovimentationByProjectidUseCase {
@@ -18,19 +18,21 @@ export class GetMovimentationByProjectidUseCase {
   ) {}
 
   async execute({
-    projectid,
+    project_number,
   }: GetMovimentationByProjectNameUseCaseRequest): Promise<GetMovimentationByProjectNameUseCaseResponse> {
-    const project = await this.projectRepository.findByID(projectid);
-
+    const project = await this.projectRepository.findByProjectNumber(
+      project_number
+    );
+    
     if (!project) throw new Error("Projeto não econtrado");
 
-    const movimentation = await this.movimentationRepository.findByProject(
+    const movimentations = await this.movimentationRepository.findByProject(
       project.id
     );
 
-    if (!movimentation.length)
+    if (!movimentations.length)
       throw new Error("Não há movimentação nesse projeto");
 
-    return { movimentation };
+    return { movimentations };
   }
 }

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, it, test } from "vitest";
 import { RegisterProjectUseCase } from "./register-project";
 import { InMemoryProjectRepository } from "../../../../../test/repositories/in-memory-project-repository";
 
@@ -11,7 +11,7 @@ describe("Create project", () => {
     sut = new RegisterProjectUseCase(inMemoryProjectRepository);
   });
 
-  test("transfer a project", async () => {
+  it("Sould be able to create a project", async () => {
     const registerproject = new RegisterProjectUseCase(
       inMemoryProjectRepository
     );

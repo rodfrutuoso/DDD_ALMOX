@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { TransferMaterialUseCase } from "./transfer-material";
-import { InMemoryMaterialRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
+import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
 
-let inMeomoryMovimentationRepository: InMemoryMaterialRepository;
+let inMeomoryMovimentationRepository: InMemoryMovimentationRepository;
 let sut: TransferMaterialUseCase;
 
 describe("Transfer Material", () => {
   beforeEach(() => {
-    inMeomoryMovimentationRepository = new InMemoryMaterialRepository();
+    inMeomoryMovimentationRepository = new InMemoryMovimentationRepository();
     sut = new TransferMaterialUseCase(
       inMeomoryMovimentationRepository
     );
