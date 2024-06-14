@@ -31,12 +31,16 @@ export class Storekeeper extends Entity<StorekeeperProps> {
     return this.props.type;
   }
 
-  set name(name: string) {
-    this.props.name = name;
+  set type(type: string) {
+    this.props.type = type;
   }
 
-  set email(email: string) {
-    this.props.email = email;
+  set status(status: string) {
+    this.props.status = status;
+  }
+
+  set base(base: string) {
+    this.props.base = base;
   }
 
   static create(props: StorekeeperProps, id?: UniqueEntityID) {

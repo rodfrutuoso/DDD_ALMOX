@@ -15,6 +15,12 @@ export class InMemoryStorekeeperRepository implements StorekeeperRepository {
     this.items.splice(itemIndex, 1);
   }
 
+  async save(storekeeper: Storekeeper) {
+    const itemIndex = this.items.findIndex((item) => item.id == storekeeper.id);
+
+    this.items[itemIndex] = storekeeper;
+  }
+
   async findById(id: UniqueEntityID): Promise<Storekeeper | null> {
     const storekeeper = this.items.find((item) => item.id === id);
 

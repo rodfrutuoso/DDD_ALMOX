@@ -1,30 +1,37 @@
 import { beforeEach, describe, expect, it, test } from "vitest";
-import { DeleteStorekeeperUseCase } from "./delete-storekeeper";
+import { EditStorekeeperUseCase } from "./edit-storekeeper";
 import { InMemoryStorekeeperRepository } from "../../../../../test/repositories/in-memory-storekeeper-repository";
 import { makeStorekeeper } from "../../../../../test/factories/make-storekeeper";
 
 let inMemoryStorekeeperRepository: InMemoryStorekeeperRepository;
-let sut: DeleteStorekeeperUseCase;
+let sut: EditStorekeeperUseCase;
 
-describe("Delete Storekeeper", () => {
+describe("Edit Storekeeper", () => {
   beforeEach(() => {
     inMemoryStorekeeperRepository = new InMemoryStorekeeperRepository();
-    sut = new DeleteStorekeeperUseCase(inMemoryStorekeeperRepository);
+    sut = new EditStorekeeperUseCase(inMemoryStorekeeperRepository);
   });
 
-  it("sould be able to delete a storekeeper", async () => {
+  it("sould be able to edit a storekeeper", async () => {
     const storekeeper = makeStorekeeper();
     const author = makeStorekeeper({ type: "Administrator" });
 
     await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    await sut.execute({ authorId: author.id, storekeeperId: storekeeper.id });
+    await sut.execute({
+      authorId: author.id,
+      storekeeperId: storekeeper.id,
+      base: "Vitória da Conquista",
+    });
 
-    expect(inMemoryStorekeeperRepository.items).toHaveLength(1); // there'll be only the author
+    console.log(inMemoryStorekeeperRepository.items[1]);
+    expect(inMemoryStorekeeperRepository.items[1]).toMatchObject({
+      base: "Vitória da Conquista",
+    });
   });
 
-  it("sould not be able to delete a storekeeper if the author is not 'Administrador'", async () => {
+  it("sould not be able to edit a storekeeper if the author is not 'Administrador'", async () => {
     const storekeeper = makeStorekeeper();
     const author = makeStorekeeper({ type: "Almoxarife" });
 
@@ -35,9 +42,12 @@ describe("Delete Storekeeper", () => {
       return sut.execute({
         authorId: author.id,
         storekeeperId: storekeeper.id,
+        base: "Vitória da Conquista",
       });
     }).rejects.toBeInstanceOf(Error);
 
-    expect(inMemoryStorekeeperRepository.items).toHaveLength(2);
+    expect(inMemoryStorekeeperRepository.items[1].base).toEqual(
+      storekeeper.base
+    );
   });
 });
