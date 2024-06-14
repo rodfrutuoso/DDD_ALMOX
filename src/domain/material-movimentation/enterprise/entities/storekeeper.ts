@@ -23,6 +23,14 @@ export class Storekeeper extends Entity<StorekeeperProps> {
     return this.props.cpf;
   }
 
+  get status() {
+    return this.props.status;
+  }
+
+  get type() {
+    return this.props.type;
+  }
+
   set name(name: string) {
     this.props.name = name;
   }

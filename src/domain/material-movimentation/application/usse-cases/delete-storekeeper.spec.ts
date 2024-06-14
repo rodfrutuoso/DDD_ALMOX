@@ -14,11 +14,13 @@ describe("Delete Storekeeper", () => {
 
   it("sould be able to delete a storekeeper", async () => {
     const storekeeper = makeStorekeeper();
+    const author = makeStorekeeper({ type: "Administrator" });
 
+    await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    await sut.execute({ storekeeperId: storekeeper.id });
+    await sut.execute({ authorId: author.id, storekeeperId: storekeeper.id });
 
-    expect(inMemoryStorekeeperRepository.items).toHaveLength(0);
+    expect(inMemoryStorekeeperRepository.items).toHaveLength(1); // there'll be only the author
   });
 });

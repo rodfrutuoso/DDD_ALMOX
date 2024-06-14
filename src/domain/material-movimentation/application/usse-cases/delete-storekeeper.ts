@@ -4,6 +4,7 @@ import { StorekeeperRepository } from "../repositories/storekeeper-repository";
 
 interface DeleteStorekeeperUseCaseRequest {
   storekeeperId: UniqueEntityID;
+  authorId: UniqueEntityID;
 }
 
 interface DeleteStorekeeperResponse {}
@@ -13,7 +14,15 @@ export class DeleteStorekeeperUseCase {
 
   async execute({
     storekeeperId,
+    authorId,
   }: DeleteStorekeeperUseCaseRequest): Promise<DeleteStorekeeperResponse> {
+    const author = await this.storekeeperRepository.findById(authorId);
+
+    if (!author) throw new Error("usuário não encontrado");
+
+    if (author.type != "Administrator")
+      throw new Error("O usuário não tem permissão");
+
     const storekeeper = await this.storekeeperRepository.findById(
       storekeeperId
     );
