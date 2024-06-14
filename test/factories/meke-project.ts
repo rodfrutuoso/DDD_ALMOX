@@ -18,4 +18,4 @@ export function makeProject(override: Partial<ProjectProps> = {}) {
   return project;
 }
 
-const types = ["Administrador", "Almoxarife"];
+const types = ["Obra", "OC", "OS", "Kit", "Medidor"];
