@@ -1,4 +1,3 @@
-import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Movimentation } from "../../enterprise/entities/movimentation";
 import { MovimentationRepository } from "../repositories/movimentation-repository";
 import { ProjectRepository } from "../repositories/project-repository";

@@ -47,7 +47,7 @@ export class Movimentation extends Entity<MovimentationProps> {
     const transferRegister = new Movimentation(
       {
         ...props,
-        transferDate: new Date(),
+        transferDate: props.transferDate ?? new Date(),
       },
       id
     );

@@ -25,9 +25,10 @@ describe("Edit Storekeeper", () => {
       base: "Vitória da Conquista",
     });
 
-    console.log(inMemoryStorekeeperRepository.items[1]);
     expect(inMemoryStorekeeperRepository.items[1]).toMatchObject({
-      base: "Vitória da Conquista",
+      props: {
+        base: "Vitória da Conquista",
+      },
     });
   });
 
