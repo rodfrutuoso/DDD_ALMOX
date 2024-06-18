@@ -2,8 +2,8 @@ import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { StorekeeperRepository } from "../repositories/storekeeper-repository";
 
 interface EditStorekeeperUseCaseRequest {
-  storekeeperId: UniqueEntityID;
-  authorId: UniqueEntityID;
+  storekeeperId: string;
+  authorId: string;
   type?: string;
   base?: string;
   status?: string;

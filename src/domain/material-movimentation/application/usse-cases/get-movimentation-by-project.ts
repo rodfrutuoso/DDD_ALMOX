@@ -26,7 +26,7 @@ export class GetMovimentationByProjectidUseCase {
     if (!project) throw new Error("Projeto não econtrado");
 
     const movimentations = await this.movimentationRepository.findByProject(
-      project.id
+      project.id.toString()
     );
 
     if (!movimentations.length)

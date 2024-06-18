@@ -19,7 +19,7 @@ describe("Delete Storekeeper", () => {
     await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    await sut.execute({ authorId: author.id, storekeeperId: storekeeper.id });
+    await sut.execute({ authorId: author.id.toString(), storekeeperId: storekeeper.id.toString() });
 
     expect(inMemoryStorekeeperRepository.items).toHaveLength(1); // there'll be only the author
   });
@@ -33,8 +33,8 @@ describe("Delete Storekeeper", () => {
 
     expect(() => {
       return sut.execute({
-        authorId: author.id,
-        storekeeperId: storekeeper.id,
+        authorId: author.id.toString(),
+        storekeeperId: storekeeper.id.toString(),
       });
     }).rejects.toBeInstanceOf(Error);
 

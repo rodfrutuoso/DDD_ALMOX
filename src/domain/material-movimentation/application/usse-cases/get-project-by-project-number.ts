@@ -17,7 +17,7 @@ export class GetProjectByProjectNumberUseCase {
     id,
   }: GetProjectByProjectNumberUseCaseRequest): Promise<GetProjectByProjectNumberResponse> {
     const project = await this.projectRepository.findByID(
-      new UniqueEntityID(id)
+      id
     );
 
     if (!project) throw new Error("Projeto não encontrado");

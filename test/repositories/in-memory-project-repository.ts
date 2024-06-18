@@ -15,8 +15,8 @@ export class InMemoryProjectRepository implements ProjectRepository {
     return project;
   }
   
-  async findByID(id: UniqueEntityID): Promise<Project | null> {
-    const project = this.items.find((item) => item.id === id);
+  async findByID(id: string): Promise<Project | null> {
+    const project = this.items.find((item) => item.id.toString() === id);
 
     if (!project) return null;
 

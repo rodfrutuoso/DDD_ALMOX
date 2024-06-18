@@ -1,10 +1,8 @@
-import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
-import { Storekeeper } from "../../enterprise/entities/storekeeper";
 import { StorekeeperRepository } from "../repositories/storekeeper-repository";
 
 interface DeleteStorekeeperUseCaseRequest {
-  storekeeperId: UniqueEntityID;
-  authorId: UniqueEntityID;
+  storekeeperId: string;
+  authorId: string;
 }
 
 interface DeleteStorekeeperResponse {}

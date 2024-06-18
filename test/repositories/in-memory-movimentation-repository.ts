@@ -8,9 +8,9 @@ export class InMemoryMovimentationRepository
 {
   public items: Movimentation[] = [];
 
-  async findByProject(projectid: UniqueEntityID): Promise<Movimentation[]> {
+  async findByProject(projectid: string): Promise<Movimentation[]> {
     const movimentations = this.items.filter(
-      (movimentation) => movimentation.projectId === projectid
+      (movimentation) => movimentation.projectId.toString() === projectid
     );
 
     return movimentations;

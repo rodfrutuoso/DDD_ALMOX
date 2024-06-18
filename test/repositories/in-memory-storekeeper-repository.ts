@@ -9,8 +9,8 @@ export class InMemoryStorekeeperRepository implements StorekeeperRepository {
     this.items.push(storekeeper);
   }
 
-  async delete(storekeeperId: UniqueEntityID) {
-    const itemIndex = this.items.findIndex((item) => item.id == storekeeperId);
+  async delete(storekeeperId: string) {
+    const itemIndex = this.items.findIndex((item) => item.id.toString() == storekeeperId);
 
     this.items.splice(itemIndex, 1);
   }
@@ -21,8 +21,8 @@ export class InMemoryStorekeeperRepository implements StorekeeperRepository {
     this.items[itemIndex] = storekeeper;
   }
 
-  async findById(id: UniqueEntityID): Promise<Storekeeper | null> {
-    const storekeeper = this.items.find((item) => item.id === id);
+  async findById(id: string): Promise<Storekeeper | null> {
+    const storekeeper = this.items.find((item) => item.id.toString() === id);
 
     if (!storekeeper) return null;
 

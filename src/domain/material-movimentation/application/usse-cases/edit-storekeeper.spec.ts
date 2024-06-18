@@ -20,8 +20,8 @@ describe("Edit Storekeeper", () => {
     await inMemoryStorekeeperRepository.create(storekeeper);
 
     await sut.execute({
-      authorId: author.id,
-      storekeeperId: storekeeper.id,
+      authorId: author.id.toString(),
+      storekeeperId: storekeeper.id.toString(),
       base: "Vitória da Conquista",
     });
 
@@ -41,8 +41,8 @@ describe("Edit Storekeeper", () => {
 
     expect(() => {
       return sut.execute({
-        authorId: author.id,
-        storekeeperId: storekeeper.id,
+        authorId: author.id.toString(),
+        storekeeperId: storekeeper.id.toString(),
         base: "Vitória da Conquista",
       });
     }).rejects.toBeInstanceOf(Error);
