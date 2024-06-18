@@ -1,53 +1,29 @@
-import { Entity } from "../../../../core/entities/entity";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Optional } from "../../../../core/types/optional";
+import { MaterialPerProject, MaterialPerProjectProps } from "./material-per-project";
 
-export interface MovimentationProps {
-  projectId: UniqueEntityID;
-  materialId: UniqueEntityID;
+export interface MovimentationProps extends MaterialPerProjectProps {
   storekeeperId: UniqueEntityID;
   observation: string;
-  value: number;
-  transferDate: Date;
 }
 
-export class Movimentation extends Entity<MovimentationProps> {
-  get projectId() {
-    return this.props.projectId;
-  }
-
-  set projecId(projecId: UniqueEntityID) {
-    this.props.projecId = projecId;
-  }
-
-  get materialId() {
-    return this.props.materialId;
-  }
-
+export class Movimentation extends MaterialPerProject<MovimentationProps> {
   get storekeeperId() {
     return this.props.storekeeperId;
-  }
-
-  get value() {
-    return this.props.value;
   }
 
   get observation() {
     return this.props.observation;
   }
 
-  get transferDate() {
-    return this.props.transferDate;
-  }
-
   static create(
-    props: Optional<MovimentationProps, "transferDate">,
+    props: Optional<MovimentationProps, "createdAt">,
     id?: UniqueEntityID
   ) {
     const transferRegister = new Movimentation(
       {
         ...props,
-        transferDate: props.transferDate ?? new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id
     );

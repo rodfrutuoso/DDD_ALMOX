@@ -12,7 +12,7 @@ export function makeMovimentation(override: Partial<MovimentationProps> = {}) {
     storekeeperId: new UniqueEntityID(),
     observation: faker.lorem.sentence(),
     value: faker.number.float({ min: -1000, max: 1000 }),
-    transferDate: faker.date.recent(),
+    createdAt: faker.date.recent(),
     ...override,
   });
 
