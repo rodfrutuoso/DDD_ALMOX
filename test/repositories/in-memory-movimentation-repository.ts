@@ -19,7 +19,7 @@ export class InMemoryMovimentationRepository
   async findManyHistory({ page }: PaginationParams): Promise<Movimentation[]> {
     const movimentations = this.items
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice((page - 1) * 50, page * 50);
+      .slice((page - 1) * 40, page * 40);
 
     return movimentations;
   }

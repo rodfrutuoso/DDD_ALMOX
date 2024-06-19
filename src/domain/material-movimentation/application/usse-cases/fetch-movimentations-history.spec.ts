@@ -45,7 +45,7 @@ describe("Fetch Movimentations History", () => {
   });
 
   it("should be able to fetch paginated movimentations history", async () => {
-    for (let i = 1; i <= 55; i++) {
+    for (let i = 1; i <= 45; i++) {
       await inMemoryMovimentationRepository.create(makeMovimentation());
     }
 

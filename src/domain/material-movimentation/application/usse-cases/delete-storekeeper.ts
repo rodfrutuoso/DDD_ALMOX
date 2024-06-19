@@ -1,3 +1,4 @@
+import { Eihter, left, right } from "../../../../core/either";
 import { StorekeeperRepository } from "../repositories/storekeeper-repository";
 
 interface DeleteStorekeeperUseCaseRequest {
@@ -5,7 +6,7 @@ interface DeleteStorekeeperUseCaseRequest {
   authorId: string;
 }
 
-interface DeleteStorekeeperResponse {}
+type DeleteStorekeeperResponse = Eihter<string, {}>;
 
 export class DeleteStorekeeperUseCase {
   constructor(private storekeeperRepository: StorekeeperRepository) {}
@@ -16,19 +17,19 @@ export class DeleteStorekeeperUseCase {
   }: DeleteStorekeeperUseCaseRequest): Promise<DeleteStorekeeperResponse> {
     const author = await this.storekeeperRepository.findById(authorId);
 
-    if (!author) throw new Error("usuário não encontrado");
+    if (!author) return left("usuário não encontrado"); //throw new Error("usuário não encontrado");
 
     if (author.type != "Administrator")
-      throw new Error("O usuário não tem permissão");
+      return left("O usuário não tem permissão");
 
     const storekeeper = await this.storekeeperRepository.findById(
       storekeeperId
     );
 
-    if (!storekeeper) throw new Error("Almoxarife não encontrado");
+    if (!storekeeper) return left("Almoxarife não encontrado");
 
     await this.storekeeperRepository.delete(storekeeperId);
 
-    return {};
+    return right({});
   }
 }
