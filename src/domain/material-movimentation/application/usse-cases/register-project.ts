@@ -1,3 +1,4 @@
+import { Eihter, right } from "../../../../core/either";
 import { Project } from "../../enterprise/entities/project";
 import { ProjectRepository } from "../repositories/project-repository";
 
@@ -9,9 +10,9 @@ interface RegisterProjectUseCaseRequest {
   city: string;
 }
 
-interface RegisterProjectResponse {
+type RegisterProjectResponse = Eihter<null,{
   project: Project;
-}
+}>
 
 export class RegisterProjectUseCase {
   constructor(private ProjectRepository: ProjectRepository) {}
@@ -34,6 +35,6 @@ export class RegisterProjectUseCase {
 
     await this.ProjectRepository.create(project);
 
-    return { project };
+    return right({ project });
   }
 }

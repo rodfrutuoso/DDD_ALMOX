@@ -27,21 +27,23 @@ describe("Fetch Movimentations History", () => {
     await inMemoryMovimentationRepository.create(newMovimentation2);
     await inMemoryMovimentationRepository.create(newMovimentation3);
 
-    const { movimentations } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
 
-    expect(movimentations).toEqual([
-      expect.objectContaining({
-        props: expect.objectContaining({ createdAt: new Date(2024, 5, 19) }),
-      }),
-      expect.objectContaining({
-        props: expect.objectContaining({ createdAt: new Date(2024, 5, 17) }),
-      }),
-      expect.objectContaining({
-        props: expect.objectContaining({ createdAt: new Date(2024, 5, 16) }),
-      }),
-    ]);
+    expect(result.isRight()).toBeTruthy();
+    if (result.isRight())
+      expect(result.value.movimentations).toEqual([
+        expect.objectContaining({
+          props: expect.objectContaining({ createdAt: new Date(2024, 5, 19) }),
+        }),
+        expect.objectContaining({
+          props: expect.objectContaining({ createdAt: new Date(2024, 5, 17) }),
+        }),
+        expect.objectContaining({
+          props: expect.objectContaining({ createdAt: new Date(2024, 5, 16) }),
+        }),
+      ]);
   });
 
   it("should be able to fetch paginated movimentations history", async () => {
@@ -49,10 +51,9 @@ describe("Fetch Movimentations History", () => {
       await inMemoryMovimentationRepository.create(makeMovimentation());
     }
 
-    const { movimentations } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
-
-    expect(movimentations).toHaveLength(5)
+    if (result.isRight()) expect(result.value.movimentations).toHaveLength(5);
   });
 });

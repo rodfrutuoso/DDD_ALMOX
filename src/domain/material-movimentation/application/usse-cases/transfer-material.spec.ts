@@ -14,7 +14,7 @@ describe("Transfer Material", () => {
   });
 
   it("should be able to transfer a material", async () => {
-    const { movimentation } = await sut.execute({
+    const result = await sut.execute({
       projectId: "1",
       materialId: "4",
       storekeeperId: "5",
@@ -22,8 +22,9 @@ describe("Transfer Material", () => {
       value: 5,
     });
 
-    expect(movimentation.value).toEqual(5);
-    expect(movimentation.observation).toEqual("Material Movimentado");
+    expect(result.isRight()).toBeTruthy()
+    expect(result.value?.movimentation.value).toEqual(5);
+    expect(result.value?.movimentation.observation).toEqual("Material Movimentado");
     expect(inMeomoryMovimentationRepository.items[0].id).toBeTruthy()
   });
 });

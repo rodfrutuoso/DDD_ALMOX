@@ -1,7 +1,5 @@
-import { beforeEach, describe, expect, it, test } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { CreateMaterialUseCase } from "./create-material";
-import { MaterialRepository } from "../repositories/material-repository";
-import { Material } from "../../enterprise/entities/material";
 import { InMemoryMaterialRepository } from "../../../../../test/repositories/in-memory-material-repository";
 
 let inMemoryMaterialRepository: InMemoryMaterialRepository;
@@ -18,16 +16,16 @@ describe("Create Material", () => {
       inMemoryMaterialRepository
     );
 
-    const { material } = await createMaterial.execute({
+    const result = await createMaterial.execute({
       code: 32142141,
       description: "Material não sei das quantas",
       type: "concreto",
       unit: "CDA",
     });
 
-    expect(material.code).toEqual(32142141);
-    expect(material.type).toEqual("concreto");
-    expect(material.id).toBeTruthy();
+    expect(result.value?.material.code).toEqual(32142141);
+    expect(result.value?.material.type).toEqual("concreto");
+    expect(result.isRight()).toBeTruthy();
     expect(inMemoryMaterialRepository.items[0].id).toBeTruthy();
   });
 });

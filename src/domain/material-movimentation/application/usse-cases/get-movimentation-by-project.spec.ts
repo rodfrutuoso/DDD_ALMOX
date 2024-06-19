@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { GetMovimentationByProjectidUseCase } from "./get-movimentation-by-project";
 import { InMemoryProjectRepository } from "../../../../../test/repositories/in-memory-project-repository";
 import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
-import { Project } from "../../enterprise/entities/project";
 import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
 import { makeProject } from "../../../../../test/factories/meke-project";
 
@@ -39,12 +38,17 @@ describe("Get Movimentation by project", () => {
     await inMemoryMovimentationRepository.create(newMovimentation2);
     await inMemoryMovimentationRepository.create(newMovimentation3);
 
-    const { movimentations } = await sut.execute({
+    const result = await sut.execute({
       project_number: "B-10101010",
     });
 
-    expect(movimentations[0].value).toEqual(5);
-    expect(movimentations[2].observation).toEqual("Movimentado");
+    expect(result.isRight()).toBeTruthy();
+    if (result.isRight()) {
+      expect(result.value.movimentations[0].value).toEqual(5);
+      expect(result.value.movimentations[2].observation).toEqual(
+        "Movimentado"
+      );
+    }
     expect(inMeomoryProjectRepository.items[0].id).toBeTruthy();
     expect(inMemoryMovimentationRepository.items[2].id).toBeTruthy();
   });

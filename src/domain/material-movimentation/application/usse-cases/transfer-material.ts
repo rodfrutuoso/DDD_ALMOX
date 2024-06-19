@@ -1,3 +1,4 @@
+import { Eihter, right } from "../../../../core/either";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Movimentation } from "../../enterprise/entities/movimentation";
 import { MovimentationRepository } from "../repositories/movimentation-repository";
@@ -10,9 +11,12 @@ interface TransferMaterialUseCaseRequest {
   value: number;
 }
 
-interface TransferMaterialResponse {
-  movimentation: Movimentation;
-}
+type TransferMaterialResponse = Eihter<
+  null,
+  {
+    movimentation: Movimentation;
+  }
+>;
 
 export class TransferMaterialUseCase {
   constructor(private movimentationRepository: MovimentationRepository) {}
@@ -34,6 +38,6 @@ export class TransferMaterialUseCase {
 
     await this.movimentationRepository.create(movimentation);
 
-    return { movimentation };
+    return right( { movimentation });
   }
 }

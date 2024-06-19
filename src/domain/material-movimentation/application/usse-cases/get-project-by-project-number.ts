@@ -1,14 +1,18 @@
-import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
+import { Eihter, left, right } from "../../../../core/either";
 import { Project } from "../../enterprise/entities/project";
 import { ProjectRepository } from "../repositories/project-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface GetProjectByProjectNumberUseCaseRequest {
   id: string;
 }
 
-interface GetProjectByProjectNumberResponse {
-  project: Project;
-}
+type GetProjectByProjectNumberResponse = Eihter<
+  ResourceNotFoundError,
+  {
+    project: Project;
+  }
+>;
 
 export class GetProjectByProjectNumberUseCase {
   constructor(private projectRepository: ProjectRepository) {}
@@ -16,12 +20,10 @@ export class GetProjectByProjectNumberUseCase {
   async execute({
     id,
   }: GetProjectByProjectNumberUseCaseRequest): Promise<GetProjectByProjectNumberResponse> {
-    const project = await this.projectRepository.findByID(
-      id
-    );
+    const project = await this.projectRepository.findByID(id);
 
-    if (!project) throw new Error("Projeto não encontrado");
+    if (!project) return left(new ResourceNotFoundError());
 
-    return { project };
+    return right({ project });
   }
 }

@@ -1,3 +1,4 @@
+import { Eihter, right } from "../../../../core/either";
 import { Material } from "../../enterprise/entities/material";
 import { MaterialRepository } from "../repositories/material-repository";
 
@@ -8,9 +9,12 @@ interface CreateMaterialUseCaseRequest {
   type: string;
 }
 
-interface CreateMaterialResponse {
-  material: Material;
-}
+type CreateMaterialResponse = Eihter<
+  null,
+  {
+    material: Material;
+  }
+>;
 
 export class CreateMaterialUseCase {
   constructor(private materialRepository: MaterialRepository) {}
@@ -25,6 +29,6 @@ export class CreateMaterialUseCase {
 
     await this.materialRepository.create(material);
 
-    return { material };
+    return right({ material });
   }
 }

@@ -1,18 +1,21 @@
+import { Eihter, left, right } from "../../../../core/either";
 import { Movimentation } from "../../enterprise/entities/movimentation";
 import { MovimentationRepository } from "../repositories/movimentation-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface FetchMovimentationHistoryUseCaseRequest {
   page: number;
 }
 
-interface FetchMovimentationHistoryUseCaseResponse {
-  movimentations: Movimentation[];
-}
+type FetchMovimentationHistoryUseCaseResponse = Eihter<
+  ResourceNotFoundError,
+  {
+    movimentations: Movimentation[];
+  }
+>;
 
 export class FetchMovimentationHistoryUseCase {
-  constructor(
-    private movimentationRepository: MovimentationRepository,
-  ) {}
+  constructor(private movimentationRepository: MovimentationRepository) {}
 
   async execute({
     page,
@@ -21,9 +24,8 @@ export class FetchMovimentationHistoryUseCase {
       page,
     });
 
-    if (!movimentations.length)
-      throw new Error("Não há histórico de moimentação com os filtros informados");
+    if (!movimentations.length) return left(new ResourceNotFoundError());
 
-    return { movimentations };
+    return right({ movimentations });
   }
 }

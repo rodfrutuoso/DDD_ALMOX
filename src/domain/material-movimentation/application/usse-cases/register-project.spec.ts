@@ -16,7 +16,7 @@ describe("Create project", () => {
       inMemoryProjectRepository
     );
 
-    const { project } = await registerproject.execute({
+    const result = await registerproject.execute({
       project_number: "B-10101010",
       description: "fazenda-num-sei-das-quantas-POV-onde-judas-perdeu-as-botas",
       type: "obra",
@@ -24,9 +24,10 @@ describe("Create project", () => {
       city: "Lagedo do Tabocal"
     });
 
-    expect(project.project_number).toEqual("B-10101010");
-    expect(project.type).toEqual("obra");
-    expect(project.activeAlmoxID).toBeFalsy();
+    expect(result.isRight()).toBeTruthy()
+    expect(result.value?.project.project_number).toEqual("B-10101010");
+    expect(result.value?.project.type).toEqual("obra");
+    expect(result.value?.project.activeAlmoxID).toBeFalsy();
     expect(inMemoryProjectRepository.items[0].id).toBeTruthy();
   });
 });

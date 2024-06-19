@@ -1,7 +1,8 @@
-import { beforeEach, describe, expect, it, test } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { DeleteStorekeeperUseCase } from "./delete-storekeeper";
 import { InMemoryStorekeeperRepository } from "../../../../../test/repositories/in-memory-storekeeper-repository";
 import { makeStorekeeper } from "../../../../../test/factories/make-storekeeper";
+import { NotAllowedError } from "./errors/not-allowed-error";
 
 let inMemoryStorekeeperRepository: InMemoryStorekeeperRepository;
 let sut: DeleteStorekeeperUseCase;
@@ -19,7 +20,10 @@ describe("Delete Storekeeper", () => {
     await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    await sut.execute({ authorId: author.id.toString(), storekeeperId: storekeeper.id.toString() });
+    await sut.execute({
+      authorId: author.id.toString(),
+      storekeeperId: storekeeper.id.toString(),
+    });
 
     expect(inMemoryStorekeeperRepository.items).toHaveLength(1); // there'll be only the author
   });
@@ -31,13 +35,13 @@ describe("Delete Storekeeper", () => {
     await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    expect(() => {
-      return sut.execute({
-        authorId: author.id.toString(),
-        storekeeperId: storekeeper.id.toString(),
-      });
-    }).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      authorId: author.id.toString(),
+      storekeeperId: storekeeper.id.toString(),
+    });
 
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
     expect(inMemoryStorekeeperRepository.items).toHaveLength(2);
   });
 });

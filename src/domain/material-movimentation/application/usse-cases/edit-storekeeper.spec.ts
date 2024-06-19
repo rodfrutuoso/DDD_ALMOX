@@ -39,14 +39,13 @@ describe("Edit Storekeeper", () => {
     await inMemoryStorekeeperRepository.create(author);
     await inMemoryStorekeeperRepository.create(storekeeper);
 
-    expect(() => {
-      return sut.execute({
-        authorId: author.id.toString(),
-        storekeeperId: storekeeper.id.toString(),
-        base: "Vitória da Conquista",
-      });
-    }).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      authorId: author.id.toString(),
+      storekeeperId: storekeeper.id.toString(),
+      base: "Vitória da Conquista",
+    });
 
+    expect(result.isLeft()).toBeTruthy();
     expect(inMemoryStorekeeperRepository.items[1].base).toEqual(
       storekeeper.base
     );
