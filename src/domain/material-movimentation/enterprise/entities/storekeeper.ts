@@ -6,7 +6,7 @@ export interface StorekeeperProps {
   email: string;
   cpf: number;
   type: string;
-  base: string;
+  base: UniqueEntityID;
   status: string;
 }
 

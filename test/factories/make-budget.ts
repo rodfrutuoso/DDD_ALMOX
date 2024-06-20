@@ -10,6 +10,7 @@ export function makeBudget(override: Partial<BudgetProps> = {}) {
     projectId: new UniqueEntityID(),
     materialId: new UniqueEntityID(),
     estimatorId: new UniqueEntityID(),
+    contract: new UniqueEntityID(),
     value: faker.number.float({ min: -1000, max: 1000 }),
     createdAt: faker.date.recent(),
     ...override,

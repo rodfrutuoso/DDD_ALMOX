@@ -7,6 +7,7 @@ import {
 
 export interface BudgetProps extends MaterialPerProjectProps {
   estimatorId: UniqueEntityID;
+  contract: UniqueEntityID;
 }
 
 export class Budget extends MaterialPerProject<BudgetProps> {

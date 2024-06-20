@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
 import {
   Storekeeper,
   StorekeeperProps,
@@ -8,7 +9,7 @@ export function makeStorekeeper(override: Partial<StorekeeperProps> = {}) {
   const storekeeper = Storekeeper.create({
     name: faker.person.fullName(),
     cpf: faker.number.int({ min: 100000000, max: 10000000000 }),
-    base: faker.location.city(),
+    base: new UniqueEntityID(),
     email: faker.internet.email({ provider: "ecoeletrica.com.br" }),
     status: faker.helpers.arrayElement(status),
     type: faker.helpers.arrayElement(types),

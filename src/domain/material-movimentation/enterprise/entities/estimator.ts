@@ -5,7 +5,7 @@ export interface EstimatorProps {
   name: string;
   email: string;
   cpf: number;
-  contract: string;
+  contract: UniqueEntityID;
 }
 
 export class Estimator extends Entity<EstimatorProps> {
