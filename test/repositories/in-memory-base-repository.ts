@@ -5,7 +5,6 @@ export class InMemoryBaseRepository implements BaseRepository {
   public items: Base[] = [];
 
   async create(base: Base) {
-    console.log(base)
     this.items.push(base);
   }
 }

@@ -1,7 +1,8 @@
-import { Eihter, right } from "../../../../core/either";
+import { Eihter, left, right } from "../../../../core/either";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Project } from "../../enterprise/entities/project";
 import { ProjectRepository } from "../repositories/project-repository";
+import { ResourceAlreadyRegisteredError } from "./errors/resource-already-registered-error";
 
 interface RegisterProjectUseCaseRequest {
   project_number: string;
@@ -11,12 +12,15 @@ interface RegisterProjectUseCaseRequest {
   city: string;
 }
 
-type RegisterProjectResponse = Eihter<null,{
-  project: Project;
-}>
+type RegisterProjectResponse = Eihter<
+  ResourceAlreadyRegisteredError,
+  {
+    project: Project;
+  }
+>;
 
 export class RegisterProjectUseCase {
-  constructor(private ProjectRepository: ProjectRepository) {}
+  constructor(private projectRepository: ProjectRepository) {}
 
   async execute({
     project_number,
@@ -25,6 +29,12 @@ export class RegisterProjectUseCase {
     baseId,
     city,
   }: RegisterProjectUseCaseRequest): Promise<RegisterProjectResponse> {
+    const projectSearch = await this.projectRepository.findByProjectNumber(
+      project_number
+    );
+
+    if (projectSearch) return left(new ResourceAlreadyRegisteredError());
+
     const project = Project.create({
       project_number,
       description,
@@ -34,7 +44,7 @@ export class RegisterProjectUseCase {
       activeAlmoxID: false,
     });
 
-    await this.ProjectRepository.create(project);
+    await this.projectRepository.create(project);
 
     return right({ project });
   }
