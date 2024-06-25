@@ -8,6 +8,7 @@ interface TransferMaterialUseCaseRequest {
   materialId: string;
   projectId: string;
   observation: string;
+  baseID: string;
   value: number;
 }
 
@@ -26,6 +27,7 @@ export class TransferMaterialUseCase {
     materialId,
     projectId,
     observation,
+    baseID,
     value,
   }: TransferMaterialUseCaseRequest): Promise<TransferMaterialResponse> {
     const movimentation = Movimentation.create({
@@ -33,11 +35,12 @@ export class TransferMaterialUseCase {
       materialId: new UniqueEntityID(materialId),
       storekeeperId: new UniqueEntityID(storekeeperId),
       observation,
+      baseID: new UniqueEntityID(baseID),
       value,
     });
 
     await this.movimentationRepository.create(movimentation);
 
-    return right( { movimentation });
+    return right({ movimentation });
   }
 }

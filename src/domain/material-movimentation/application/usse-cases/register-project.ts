@@ -1,4 +1,5 @@
 import { Eihter, right } from "../../../../core/either";
+import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Project } from "../../enterprise/entities/project";
 import { ProjectRepository } from "../repositories/project-repository";
 
@@ -6,7 +7,7 @@ interface RegisterProjectUseCaseRequest {
   project_number: string;
   description: string;
   type: string;
-  base: string;
+  baseId: string;
   city: string;
 }
 
@@ -21,14 +22,14 @@ export class RegisterProjectUseCase {
     project_number,
     description,
     type,
-    base,
+    baseId,
     city,
   }: RegisterProjectUseCaseRequest): Promise<RegisterProjectResponse> {
     const project = Project.create({
       project_number,
       description,
       type,
-      base,
+      baseId: new UniqueEntityID(baseId),
       city,
       activeAlmoxID: false,
     });

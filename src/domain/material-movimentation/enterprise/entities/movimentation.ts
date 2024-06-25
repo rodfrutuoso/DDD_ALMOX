@@ -5,7 +5,7 @@ import { MaterialPerProject, MaterialPerProjectProps } from "./material-per-proj
 export interface MovimentationProps extends MaterialPerProjectProps {
   storekeeperId: UniqueEntityID;
   observation: string;
-  base: UniqueEntityID;
+  baseID: UniqueEntityID;
 }
 
 export class Movimentation extends MaterialPerProject<MovimentationProps> {

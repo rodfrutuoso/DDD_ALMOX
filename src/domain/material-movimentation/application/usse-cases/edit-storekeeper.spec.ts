@@ -22,12 +22,12 @@ describe("Edit Storekeeper", () => {
     await sut.execute({
       authorId: author.id.toString(),
       storekeeperId: storekeeper.id.toString(),
-      base: "Vitória da Conquista",
+      baseId: "Vitória da Conquista",
     });
 
     expect(inMemoryStorekeeperRepository.items[1]).toMatchObject({
       props: {
-        base: "Vitória da Conquista",
+        baseId: "Vitória da Conquista",
       },
     });
   });
@@ -42,12 +42,12 @@ describe("Edit Storekeeper", () => {
     const result = await sut.execute({
       authorId: author.id.toString(),
       storekeeperId: storekeeper.id.toString(),
-      base: "Vitória da Conquista",
+      baseId: "Vitória da Conquista",
     });
 
     expect(result.isLeft()).toBeTruthy();
-    expect(inMemoryStorekeeperRepository.items[1].base).toEqual(
-      storekeeper.base
+    expect(inMemoryStorekeeperRepository.items[1].baseId).toEqual(
+      storekeeper.baseId
     );
   });
 });

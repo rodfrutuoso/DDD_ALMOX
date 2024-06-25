@@ -6,7 +6,7 @@ export interface StorekeeperProps {
   email: string;
   cpf: number;
   type: string;
-  base: UniqueEntityID;
+  baseId: UniqueEntityID;
   status: string;
 }
 
@@ -39,8 +39,8 @@ export class Storekeeper extends Entity<StorekeeperProps> {
     this.props.status = status;
   }
 
-  set base(base: string) {
-    this.props.base = base;
+  set baseId(baseId: string) {
+    this.props.baseId = baseId;
   }
 
   static create(props: StorekeeperProps, id?: UniqueEntityID) {

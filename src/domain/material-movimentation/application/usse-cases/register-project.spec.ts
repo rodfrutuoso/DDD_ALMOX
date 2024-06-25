@@ -20,7 +20,7 @@ describe("Create project", () => {
       project_number: "B-10101010",
       description: "fazenda-num-sei-das-quantas-POV-onde-judas-perdeu-as-botas",
       type: "obra",
-      base: "VCA",
+      baseId: "VCA",
       city: "Lagedo do Tabocal"
     });
 

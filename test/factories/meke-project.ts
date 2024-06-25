@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
 import {
   Project,
   ProjectProps,
@@ -9,7 +10,7 @@ export function makeProject(override: Partial<ProjectProps> = {}) {
     project_number: faker.lorem.word(),
     description: faker.lorem.sentence(),
     type: faker.helpers.arrayElement(types),
-    base: faker.location.city(),
+    baseId: new UniqueEntityID(),
     city: faker.location.city(),
     activeAlmoxID: faker.datatype.boolean(),
     ...override,

@@ -8,7 +8,7 @@ interface EditStorekeeperUseCaseRequest {
   storekeeperId: string;
   authorId: string;
   type?: string;
-  base?: string;
+  baseId?: string;
   status?: string;
 }
 
@@ -24,7 +24,7 @@ export class EditStorekeeperUseCase {
     storekeeperId,
     authorId,
     type,
-    base,
+    baseId,
     status,
   }: EditStorekeeperUseCaseRequest): Promise<EditStorekeeperResponse> {
     const author = await this.storekeeperRepository.findById(authorId);
@@ -40,7 +40,7 @@ export class EditStorekeeperUseCase {
     if (!storekeeper) return left(new ResourceNotFoundError());
 
     storekeeper.type = type ?? storekeeper.type;
-    storekeeper.base = base ?? storekeeper.base;
+    storekeeper.baseId = baseId ?? storekeeper.baseId;
     storekeeper.status = status ?? storekeeper.status;
 
     await this.storekeeperRepository.save(storekeeper);

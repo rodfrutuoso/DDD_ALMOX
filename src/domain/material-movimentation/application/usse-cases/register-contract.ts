@@ -3,26 +3,24 @@ import { Contract } from "../../enterprise/entities/contract";
 import { ContractRepository } from "../repositories/contract-repository";
 
 interface RegisterContractUseCaseRequest {
-  contract: string;
+  contractName: string;
 }
 
-type RegisterContractResponse = Eihter<null,{
-  contract: Contract;
-}>
+type RegisterContractResponse = Eihter<
+  null,
+  {
+    contract: Contract;
+  }
+>;
 
 export class RegisterContractUseCase {
   constructor(private ContractRepository: ContractRepository) {}
 
   async execute({
-    contract,
+    contractName,
   }: RegisterContractUseCaseRequest): Promise<RegisterContractResponse> {
     const contract = Contract.create({
-      contract_number,
-      description,
-      type,
-      base,
-      city,
-      activeAlmoxID: false,
+      contractName,
     });
 
     await this.ContractRepository.create(contract);

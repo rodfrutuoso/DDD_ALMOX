@@ -2,12 +2,12 @@ import { Entity } from "../../../../core/entities/entity";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 
 interface ContractProps {
-  contract: string;
+  contractName: string;
 }
 
 export class Contract extends Entity<ContractProps> {
-  get contract() {
-    return this.props.contract;
+  get contractName() {
+    return this.props.contractName;
   }
 
   static create(props: ContractProps, id?: UniqueEntityID) {

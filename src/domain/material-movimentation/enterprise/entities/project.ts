@@ -5,7 +5,7 @@ export interface ProjectProps {
   project_number: string;
   description: string;
   type: string;
-  base: string;
+  baseId: UniqueEntityID;
   city: string;
   activeAlmoxID: boolean;
 }
@@ -23,12 +23,12 @@ export class Project extends Entity<ProjectProps> {
     return this.props.type;
   }
 
-  get base() {
-    return this.props.base;
+  get baseId() {
+    return this.props.baseId;
   }
 
-  set base(base: string) {
-    this.props.base = base;
+  set baseId(baseId: string) {
+    this.props.baseId = baseId;
   }
 
   get city() {
