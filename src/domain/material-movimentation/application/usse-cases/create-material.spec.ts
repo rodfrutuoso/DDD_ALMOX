@@ -23,9 +23,11 @@ describe("Create Material", () => {
       unit: "CDA",
     });
 
-    expect(result.value?.material.code).toEqual(32142141);
-    expect(result.value?.material.type).toEqual("concreto");
     expect(result.isRight()).toBeTruthy();
+    if (result.isRight()) {
+      expect(result.value.material.code).toEqual(32142141);
+      expect(result.value.material.type).toEqual("concreto");
+    }
     expect(inMemoryMaterialRepository.items[0].id).toBeTruthy();
   });
 });

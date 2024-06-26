@@ -1,6 +1,7 @@
-import { Eihter, right } from "../../../../core/either";
+import { Eihter, left, right } from "../../../../core/either";
 import { Material } from "../../enterprise/entities/material";
 import { MaterialRepository } from "../repositories/material-repository";
+import { ResourceAlreadyRegisteredError } from "./errors/resource-already-registered-error";
 
 interface CreateMaterialUseCaseRequest {
   code: number;
@@ -10,7 +11,7 @@ interface CreateMaterialUseCaseRequest {
 }
 
 type CreateMaterialResponse = Eihter<
-  null,
+  ResourceAlreadyRegisteredError,
   {
     material: Material;
   }
@@ -25,6 +26,12 @@ export class CreateMaterialUseCase {
     unit,
     type,
   }: CreateMaterialUseCaseRequest): Promise<CreateMaterialResponse> {
+    const materialSearch = await this.materialRepository.findByCode(
+      code
+    );
+
+    if (materialSearch) return left(new ResourceAlreadyRegisteredError());
+
     const material = Material.create({ code, description, unit, type });
 
     await this.materialRepository.create(material);

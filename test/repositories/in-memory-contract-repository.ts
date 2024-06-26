@@ -4,8 +4,17 @@ import { Contract } from "../../src/domain/material-movimentation/enterprise/ent
 export class InMemoryContractRepository implements ContractRepository {
   public items: Contract[] = [];
 
+  async findByContractName(contractName: string): Promise<Contract | null> {
+    const contract = this.items.find(
+      (item) => item.contractName === contractName
+    );
+
+    if (!contract) return null;
+
+    return contract;
+  }
+
   async create(contract: Contract) {
-    console.log(contract)
     this.items.push(contract);
   }
 }

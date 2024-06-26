@@ -1,7 +1,8 @@
-import { Eihter, right } from "../../../../core/either";
+import { Eihter, left, right } from "../../../../core/either";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Base } from "../../enterprise/entities/base";
 import { BaseRepository } from "../repositories/base-repository";
+import { ResourceAlreadyRegisteredError } from "./errors/resource-already-registered-error";
 
 interface RegisterBaseUseCaseRequest {
   baseName: string;
@@ -9,25 +10,29 @@ interface RegisterBaseUseCaseRequest {
 }
 
 type RegisterBaseResponse = Eihter<
-  null,
+  ResourceAlreadyRegisteredError,
   {
     base: Base;
   }
 >;
 
 export class RegisterBaseUseCase {
-  constructor(private BaseRepository: BaseRepository) {}
+  constructor(private baseRepository: BaseRepository) {}
 
   async execute({
     baseName,
     contractID,
   }: RegisterBaseUseCaseRequest): Promise<RegisterBaseResponse> {
+    const baseSearch = await this.baseRepository.findByBaseName(baseName);
+
+    if (baseSearch) return left(new ResourceAlreadyRegisteredError());
+
     const base = Base.create({
       baseName,
       contractID: new UniqueEntityID(contractID),
     });
 
-    await this.BaseRepository.create(base);
+    await this.baseRepository.create(base);
 
     return right({ base });
   }
