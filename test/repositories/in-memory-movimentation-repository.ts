@@ -1,4 +1,3 @@
-import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
 import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { MovimentationRepository } from "../../src/domain/material-movimentation/application/repositories/movimentation-repository";
 import { Movimentation } from "../../src/domain/material-movimentation/enterprise/entities/movimentation";
@@ -8,10 +7,18 @@ export class InMemoryMovimentationRepository
 {
   public items: Movimentation[] = [];
 
-  async findByProject(projectid: string): Promise<Movimentation[]> {
-    const movimentations = this.items.filter(
-      (movimentation) => movimentation.projectId.toString() === projectid
-    );
+  async findByProject(
+    projectid: string,
+    materialId?: string
+  ): Promise<Movimentation[]> {
+    const movimentations = this.items
+      .filter(
+        (movimentation) => movimentation.projectId.toString() === projectid
+      )
+      .filter(
+        (movimentation) =>
+          !materialId || movimentation.materialId.toString() === materialId
+      );
 
     return movimentations;
   }

@@ -2,7 +2,7 @@ import { PaginationParams } from "../../../../core/repositories/pagination-param
 import { Movimentation } from "../../enterprise/entities/movimentation";
 
 export interface MovimentationRepository {
-  findByProject(projectid: string): Promise<Movimentation[]>;
+  findByProject(projectid: string, materialId?: string): Promise<Movimentation[]>;
   findManyHistory(params: PaginationParams): Promise<Movimentation[]>;
   create(movimentation: Movimentation): Promise<void>;
 }
