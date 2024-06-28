@@ -13,11 +13,7 @@ describe("Create project", () => {
   });
 
   it("Sould be able to create a project", async () => {
-    const registerProject = new RegisterProjectUseCase(
-      inMemoryProjectRepository
-    );
-
-    const result = await registerProject.execute({
+    const result = await sut.execute({
       project_number: "B-10101010",
       description: "fazenda-num-sei-das-quantas-POV-onde-judas-perdeu-as-botas",
       type: "obra",
@@ -35,11 +31,7 @@ describe("Create project", () => {
   });
 
   it("Sould not be able to create a project if project_number is already registered", async () => {
-    const registerProject = new RegisterProjectUseCase(
-      inMemoryProjectRepository
-    );
-
-    await registerProject.execute({
+    await sut.execute({
       project_number: "B-10101010",
       description: "fazenda-num-sei-das-quantas-POV-onde-judas-perdeu-as-botas",
       type: "obra",
@@ -47,7 +39,7 @@ describe("Create project", () => {
       city: "Lagedo do Tabocal",
     });
 
-    const result = await registerProject.execute({
+    const result = await sut.execute({
       project_number: "B-10101010",
       description: "fazenda-num-sei-das-quantas-POV-onde-judas-perdeu-as-botas",
       type: "obra",

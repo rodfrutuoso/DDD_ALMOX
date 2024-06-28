@@ -14,9 +14,7 @@ describe("Create Base", () => {
   });
 
   it("sould be able to create a base", async () => {
-    const createBase = new RegisterBaseUseCase(inMemoryBaseRepository);
-
-    const result = await createBase.execute({
+    const result = await sut.execute({
       baseName: "Vitória da Conquista",
       contractID: "Contrato 1",
     });

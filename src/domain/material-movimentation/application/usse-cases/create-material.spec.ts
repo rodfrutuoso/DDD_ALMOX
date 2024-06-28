@@ -12,11 +12,7 @@ describe("Create Material", () => {
   });
 
   it("sould be able to create a material", async () => {
-    const createMaterial = new CreateMaterialUseCase(
-      inMemoryMaterialRepository
-    );
-
-    const result = await createMaterial.execute({
+    const result = await sut.execute({
       code: 32142141,
       description: "Material não sei das quantas",
       type: "concreto",

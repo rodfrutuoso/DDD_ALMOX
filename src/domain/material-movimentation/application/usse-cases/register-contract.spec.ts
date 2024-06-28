@@ -13,11 +13,7 @@ describe("Register Contract", () => {
   });
 
   it("sould be able to register a contract", async () => {
-    const createContract = new RegisterContractUseCase(
-      inMemoryContractRepository
-    );
-
-    const result = await createContract.execute({
+    const result = await sut.execute({
       contractName: "Celpe",
     });
 
@@ -26,15 +22,11 @@ describe("Register Contract", () => {
   });
 
   it("Sould not be able to register a contract if contractName is already registered", async () => {
-    const registerContract = new RegisterContractUseCase(
-      inMemoryContractRepository
-    );
-
-    await registerContract.execute({
+    await sut.execute({
       contractName: "Celpe",
     });
 
-    const result = await registerContract.execute({
+    const result = await sut.execute({
       contractName: "Celpe",
     });
 
