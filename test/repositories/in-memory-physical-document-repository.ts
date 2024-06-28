@@ -16,6 +16,14 @@ export class InMemoryPhysicalDocumentRepository
     return physicaldocument;
   }
 
+  async findByID(id: string): Promise<PhysicalDocument | null> {
+    const physicalDocument = this.items.find((item) => item.id.toString() === id);
+
+    if (!physicalDocument) return null;
+
+    return physicalDocument;
+  }
+
   async create(physicaldocument: PhysicalDocument) {
     this.items.push(physicaldocument);
   }
