@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { GetMovimentationByProjectidUseCase } from "./get-movimentation-by-project";
 import { InMemoryProjectRepository } from "../../../../../test/repositories/in-memory-project-repository";
 import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
-import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
-import { makeProject } from "../../../../../test/factories/meke-project";
+import { makeMovimentation } from "../../../../../test/factories/make-movimentation";
+import { makeProject } from "../../../../../test/factories/make-project";
 
 let inMeomoryProjectRepository: InMemoryProjectRepository;
 let inMemoryMovimentationRepository: InMemoryMovimentationRepository;

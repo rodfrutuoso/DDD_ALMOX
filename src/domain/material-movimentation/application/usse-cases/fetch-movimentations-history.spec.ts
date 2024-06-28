@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { FetchMovimentationHistoryUseCase } from "./fetch-movimentations-history";
 import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
-import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
+import { makeMovimentation } from "../../../../../test/factories/make-movimentation";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 
 let inMemoryMovimentationRepository: InMemoryMovimentationRepository;

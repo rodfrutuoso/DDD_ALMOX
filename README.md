@@ -23,3 +23,7 @@ domaim driven design for almox
 
 # links uteis
 https://expressjs.com/en/resources/middleware/cors.html 
+
+# TODO
+- create fetch storekeepers
+- create ID's use cases
