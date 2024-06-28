@@ -3,11 +3,12 @@ import { TransferMovimentationBetweenProjectsUseCase } from "./transfer-moviment
 import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
 import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 let inMemoryMovimentationRepository: InMemoryMovimentationRepository;
 let sut: TransferMovimentationBetweenProjectsUseCase;
 
-describe("Transfer Material", () => {
+describe("Transfer Material between projects", () => {
   beforeEach(() => {
     inMemoryMovimentationRepository = new InMemoryMovimentationRepository();
     sut = new TransferMovimentationBetweenProjectsUseCase(
@@ -15,33 +16,56 @@ describe("Transfer Material", () => {
     );
   });
 
-  it("should be able to transfer a material", async () => {
+  it("should be able to transfer a material between projects", async () => {
     const movimentation = makeMovimentation({
       projectId: new UniqueEntityID("Projeto-origem"),
+      materialId: new UniqueEntityID("Material-teste"),
+      value: 5,
     });
 
-    await inMemoryMovimentationRepository.create(movimentation)
+    await inMemoryMovimentationRepository.create(movimentation);
 
     const result = await sut.execute({
       projectIdOut: "Projeto-origem",
       projectIdIn: "Projeto-destino",
-      materialId: "4",
+      materialId: "Material-teste",
       storekeeperId: "5",
       observation: "transferencia para terminar obra prioritária",
       baseID: "ID-BASE-VCA",
-      value: 5,
+      value: 4,
     });
-
-    console.log(result);
 
     expect(result.isRight()).toBeTruthy();
     if (result.isRight()) {
-      expect(result.value.movimentationIn.value).toEqual(5);
-      expect(result.value.movimentationOut.value).toEqual(-5);
+      expect(result.value.movimentationIn.value).toEqual(4);
+      expect(result.value.movimentationOut.value).toEqual(-4);
       expect(result.value.movimentationOut.observation).toEqual(
-        "Material Movimentado"
+        "transferencia para terminar obra prioritária"
       );
     }
     expect(inMemoryMovimentationRepository.items[0].id).toBeTruthy();
+  });
+
+  it("should not be able to transfer a material between projects if the in value is bigger than out value", async () => {
+    const movimentation = makeMovimentation({
+      projectId: new UniqueEntityID("Projeto-origem"),
+      materialId: new UniqueEntityID("Material-teste"),
+      value: 3,
+    });
+
+    await inMemoryMovimentationRepository.create(movimentation);
+
+    const result = await sut.execute({
+      projectIdOut: "Projeto-origem",
+      projectIdIn: "Projeto-destino",
+      materialId: "Material-teste",
+      storekeeperId: "5",
+      observation: "transferencia para terminar obra prioritária",
+      baseID: "ID-BASE-VCA",
+      value: 4,
+    });
+
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   });
 });

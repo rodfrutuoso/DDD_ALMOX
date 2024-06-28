@@ -42,7 +42,7 @@ export class TransferMovimentationBetweenProjectsUseCase {
 
     if (
       !movimentationVerificationOut ||
-      movimentationVerificationOut[0].value > value
+      movimentationVerificationOut[0].value < value
     )
       return left(new ResourceNotFoundError());
 
