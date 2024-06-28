@@ -17,6 +17,10 @@ export class Movimentation extends MaterialPerProject<MovimentationProps> {
     return this.props.observation;
   }
 
+  get baseID(){
+    return this.props.baseID
+  }
+
   static create(
     props: Optional<MovimentationProps, "createdAt">,
     id?: UniqueEntityID

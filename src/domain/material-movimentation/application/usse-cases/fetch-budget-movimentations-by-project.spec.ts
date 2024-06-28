@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryMovimentationRepository } from "../../../../../test/repositories/in-memory-movimentation-repository";
 import { makeMovimentation } from "../../../../../test/factories/meke-movimentation";
-import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { makeBudget } from "../../../../../test/factories/make-budget";
 import { InMemoryProjectRepository } from "../../../../../test/repositories/in-memory-project-repository";
 import { InMemoryBudgetRepository } from "../../../../../test/repositories/in-memory-budget-repository";

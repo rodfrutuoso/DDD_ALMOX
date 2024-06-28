@@ -5,6 +5,12 @@ import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface FetchMovimentationHistoryUseCaseRequest {
   page: number;
+  baseID: string;
+  storekeeperId?: string;
+  projectId?: string;
+  materialId?: string;
+  startDate?: Date;
+  endDate?: Date;
 }
 
 type FetchMovimentationHistoryUseCaseResponse = Eihter<
@@ -19,10 +25,24 @@ export class FetchMovimentationHistoryUseCase {
 
   async execute({
     page,
+    baseID,
+    storekeeperId,
+    projectId,
+    materialId,
+    startDate,
+    endDate,
   }: FetchMovimentationHistoryUseCaseRequest): Promise<FetchMovimentationHistoryUseCaseResponse> {
-    const movimentations = await this.movimentationRepository.findManyHistory({
-      page,
-    });
+    const movimentations = await this.movimentationRepository.findManyHistory(
+      {
+        page,
+      },
+      baseID,
+      storekeeperId,
+      projectId,
+      materialId,
+      startDate,
+      endDate
+    );
 
     if (!movimentations.length) return left(new ResourceNotFoundError());
 

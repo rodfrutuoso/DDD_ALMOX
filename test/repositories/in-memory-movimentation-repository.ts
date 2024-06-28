@@ -23,8 +23,33 @@ export class InMemoryMovimentationRepository
     return movimentations;
   }
 
-  async findManyHistory({ page }: PaginationParams): Promise<Movimentation[]> {
+  async findManyHistory(
+    { page }: PaginationParams,
+    baseID: string,
+    storekeeperId?: string,
+    projectId?: string,
+    materialId?: string,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<Movimentation[]> {
     const movimentations = this.items
+      .filter((movimentation) => movimentation.baseID.toString() === baseID)
+      .filter(
+        (movimentation) =>
+          !materialId || movimentation.materialId.toString() === materialId
+      )
+      .filter(
+        (movimentation) =>
+          !storekeeperId || movimentation.storekeeperId.toString() === storekeeperId
+      )
+      .filter(
+        (movimentation) =>
+          !projectId || movimentation.projectId.toString() === projectId
+      )
+      .filter(
+        (movimentation) => !startDate || movimentation.createdAt >= startDate
+      )
+      .filter((movimentation) => !endDate || movimentation.createdAt <= endDate)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice((page - 1) * 40, page * 40);
 
