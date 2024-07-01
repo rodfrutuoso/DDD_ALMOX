@@ -5,7 +5,7 @@ import { Optional } from "../../../../core/types/optional";
 export interface PhysicalDocumentProps {
   projectId: UniqueEntityID;
   identifier: number;
-  unitezed: boolean;
+  unitized: boolean;
 }
 
 export class PhysicalDocument extends Entity<PhysicalDocumentProps> {
@@ -17,7 +17,7 @@ export class PhysicalDocument extends Entity<PhysicalDocumentProps> {
     return this.props.indetifier;
   }
 
-  get unitezed() {
+  get unitized() {
     return this.props.unitezed;
   }
 
@@ -25,18 +25,18 @@ export class PhysicalDocument extends Entity<PhysicalDocumentProps> {
     this.props.identifier = identifier;
   }
 
-  set unitezed(unitezed: boolean) {
-    this.props.unitezed = unitezed;
+  set unitized(unitized: boolean) {
+    this.props.unitized = unitized;
   }
 
   static create(
-    props: Optional<PhysicalDocumentProps, "unitezed">,
+    props: Optional<PhysicalDocumentProps, "unitized">,
     id?: UniqueEntityID
   ) {
     const physicalDocument = new PhysicalDocument(
       {
         ...props,
-        unitezed: props.unitezed ?? false,
+        unitized: props.unitized ?? false,
       },
       id
     );

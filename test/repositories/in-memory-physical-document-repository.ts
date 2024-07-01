@@ -16,6 +16,12 @@ export class InMemoryPhysicalDocumentRepository
     return physicaldocument;
   }
 
+  async save(physicalDocument: PhysicalDocument) {
+    const itemIndex = this.items.findIndex((item) => item.id == physicalDocument.id);
+
+    this.items[itemIndex] = physicalDocument;
+  }
+
   async findByID(id: string): Promise<PhysicalDocument | null> {
     const physicalDocument = this.items.find((item) => item.id.toString() === id);
 

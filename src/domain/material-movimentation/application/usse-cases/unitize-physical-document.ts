@@ -1,6 +1,5 @@
 import { Eihter, left, right } from "../../../../core/either";
 import { PhysicalDocumentRepository } from "../repositories/physical-document-repository";
-import { NotAllowedError } from "./errors/not-allowed-error";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface UnitizePhysicalDocumentUseCaseRequest {
@@ -8,10 +7,7 @@ interface UnitizePhysicalDocumentUseCaseRequest {
   unitized: boolean;
 }
 
-type UnitizePhysicalDocumentResponse = Eihter<
-  ResourceNotFoundError | NotAllowedError,
-  {}
->;
+type UnitizePhysicalDocumentResponse = Eihter<ResourceNotFoundError, {}>;
 
 export class UnitizePhysicalDocumentUseCase {
   constructor(private physicaldocumentRepository: PhysicalDocumentRepository) {}
@@ -24,9 +20,9 @@ export class UnitizePhysicalDocumentUseCase {
 
     if (!physicalDocument) return left(new ResourceNotFoundError());
 
-    physicalDocument.unitezed = unitized;
+    physicalDocument.unitized = unitized;
 
-    await this.physicaldocumentRepository.save(physicaldocument);
+    await this.physicaldocumentRepository.save(physicalDocument);
 
     return right({});
   }
