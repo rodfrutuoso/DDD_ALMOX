@@ -1,3 +1,4 @@
+import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { MaterialRepository } from "../../src/domain/material-movimentation/application/repositories/material-repository";
 import { Material } from "../../src/domain/material-movimentation/enterprise/entities/material";
 
@@ -14,5 +15,20 @@ export class InMemoryMaterialRepository implements MaterialRepository {
 
   async create(material: Material) {
     this.items.push(material);
+  }
+
+  async findMany(
+    { page }: PaginationParams,
+    type?: string
+  ): Promise<Material[]> {
+    const materials = this.items
+      .filter(
+        (material) =>
+          !type || material.type.toString() === type
+      )
+      .sort((a, b) => a.code - b.code)
+      .slice((page - 1) * 40, page * 40);
+
+    return materials;
   }
 }

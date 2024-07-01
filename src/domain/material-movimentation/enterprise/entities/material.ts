@@ -1,7 +1,7 @@
 import { Entity } from "../../../../core/entities/entity";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 
-interface MaterialProps {
+export interface MaterialProps {
   code: number;
   description: string;
   type: string;
