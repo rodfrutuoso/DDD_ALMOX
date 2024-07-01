@@ -25,6 +25,10 @@ domaim driven design for almox
 https://expressjs.com/en/resources/middleware/cors.html 
 
 # TODO
-- create fetch storekeepers
-- create ID's use cases
-- create manut use cases and entity
+- create fetch storekeepers [X]
+- create ID's use cases [X]
+- create manut use cases and entity [ ]
+- fetch physical document []
+- fetch materials []
+- fetch bases []
+- fetch contracts []

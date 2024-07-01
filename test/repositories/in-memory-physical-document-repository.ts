@@ -1,3 +1,4 @@
+import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { PhysicalDocumentRepository } from "../../src/domain/material-movimentation/application/repositories/physical-document-repository";
 import { PhysicalDocument } from "../../src/domain/material-movimentation/enterprise/entities/physical-document";
 
@@ -17,13 +18,17 @@ export class InMemoryPhysicalDocumentRepository
   }
 
   async save(physicalDocument: PhysicalDocument) {
-    const itemIndex = this.items.findIndex((item) => item.id == physicalDocument.id);
+    const itemIndex = this.items.findIndex(
+      (item) => item.id == physicalDocument.id
+    );
 
     this.items[itemIndex] = physicalDocument;
   }
 
   async findByID(id: string): Promise<PhysicalDocument | null> {
-    const physicalDocument = this.items.find((item) => item.id.toString() === id);
+    const physicalDocument = this.items.find(
+      (item) => item.id.toString() === id
+    );
 
     if (!physicalDocument) return null;
 
@@ -32,5 +37,25 @@ export class InMemoryPhysicalDocumentRepository
 
   async create(physicaldocument: PhysicalDocument) {
     this.items.push(physicaldocument);
+  }
+
+  async findMany(
+    { page }: PaginationParams,
+    identifier?: number,
+    projectId?: string
+  ): Promise<PhysicalDocument[]> {
+    const physicalDocuments = this.items
+      .filter(
+        (physicaldocument) =>
+          !identifier || physicaldocument.identifier === identifier
+      )
+      .filter(
+        (physicaldocument) =>
+          !projectId || physicaldocument.projectId.toString() === projectId
+      )
+      .sort((a, b) => a.identifier - b.identifier)
+      .slice((page - 1) * 40, page * 40);
+
+    return physicalDocuments;
   }
 }

@@ -5,22 +5,22 @@ import { InMemoryPhysicalDocumentRepository } from "../../../../../test/reposito
 let inMemoryPhysicalDocumentRepository: InMemoryPhysicalDocumentRepository;
 let sut: IdentifierAttributionUseCase;
 
-describe("Create PhysicalDocument", () => {
+describe("attribute a identifier to a physical document", () => {
   beforeEach(() => {
     inMemoryPhysicalDocumentRepository =
       new InMemoryPhysicalDocumentRepository();
     sut = new IdentifierAttributionUseCase(inMemoryPhysicalDocumentRepository);
   });
 
-  it("sould be able to create a physicaldocument", async () => {
+  it("sould be able to attribute a identifier to a physical document", async () => {
     const result = await sut.execute({
       projectId: "projeto-1",
       identifier: 123456,
     });
-
+    
     expect(result.isRight()).toBeTruthy();
     if (result.isRight()) {
-      expect(result.value.physicalDocument.unitezed).toEqual(false);
+      expect(result.value.physicalDocument.unitized).toEqual(false);
     }
     expect(inMemoryPhysicalDocumentRepository.items[0].id).toBeTruthy();
   });

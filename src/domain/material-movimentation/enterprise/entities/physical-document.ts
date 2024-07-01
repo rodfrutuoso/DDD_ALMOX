@@ -13,12 +13,12 @@ export class PhysicalDocument extends Entity<PhysicalDocumentProps> {
     return this.props.projectId;
   }
 
-  get indetifier() {
-    return this.props.indetifier;
+  get identifier() {
+    return this.props.identifier;
   }
 
   get unitized() {
-    return this.props.unitezed;
+    return this.props.unitized;
   }
 
   set identifier(identifier: number) {

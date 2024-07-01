@@ -6,7 +6,7 @@ import { makePhysicalDocument } from "../../../../../test/factories/make-physica
 let inMemoryPhysicalDocumentRepository: InMemoryPhysicalDocumentRepository;
 let sut: UnitizePhysicalDocumentUseCase;
 
-describe("Edit PhysicalDocument", () => {
+describe("Unitize PhysicalDocument", () => {
   beforeEach(() => {
     inMemoryPhysicalDocumentRepository =
       new InMemoryPhysicalDocumentRepository();
@@ -15,7 +15,7 @@ describe("Edit PhysicalDocument", () => {
     );
   });
 
-  it("sould be able to edit a physicaldocument", async () => {
+  it("sould be able to unitize a physicaldocument", async () => {
     const physicaldocument = makePhysicalDocument({unitized: false});
 
     await inMemoryPhysicalDocumentRepository.create(physicaldocument);
