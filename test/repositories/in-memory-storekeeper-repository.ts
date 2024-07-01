@@ -30,6 +30,14 @@ export class InMemoryStorekeeperRepository implements StorekeeperRepository {
     return storekeeper;
   }
 
+  async findByEmail(email: string): Promise<Storekeeper | null> {
+    const storekeeper = this.items.find((item) => item.email.toString() === email);
+
+    if (!storekeeper) return null;
+
+    return storekeeper;
+  }
+
   async findMany(
     { page }: PaginationParams,
     baseId?: string
