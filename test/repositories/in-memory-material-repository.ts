@@ -5,8 +5,10 @@ import { Material } from "../../src/domain/material-movimentation/enterprise/ent
 export class InMemoryMaterialRepository implements MaterialRepository {
   public items: Material[] = [];
 
-  async findByCode(code: number): Promise<Material | null> {
-    const material = this.items.find((item) => item.code === code);
+  async findByCode(code: number, contractId: string): Promise<Material | null> {
+    const material = this.items.find(
+      (item) => item.code === code && item.contractId.toString() === contractId
+    );
 
     if (!material) return null;
 
