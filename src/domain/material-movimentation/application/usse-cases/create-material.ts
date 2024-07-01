@@ -1,4 +1,5 @@
 import { Eihter, left, right } from "../../../../core/either";
+import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 import { Material } from "../../enterprise/entities/material";
 import { MaterialRepository } from "../repositories/material-repository";
 import { ResourceAlreadyRegisteredError } from "./errors/resource-already-registered-error";
@@ -8,6 +9,7 @@ interface CreateMaterialUseCaseRequest {
   description: string;
   unit: string;
   type: string;
+  contractId: string;
 }
 
 type CreateMaterialResponse = Eihter<
@@ -25,14 +27,19 @@ export class CreateMaterialUseCase {
     description,
     unit,
     type,
+    contractId,
   }: CreateMaterialUseCaseRequest): Promise<CreateMaterialResponse> {
-    const materialSearch = await this.materialRepository.findByCode(
-      code
-    );
+    const materialSearch = await this.materialRepository.findByCode(code);
 
     if (materialSearch) return left(new ResourceAlreadyRegisteredError());
 
-    const material = Material.create({ code, description, unit, type });
+    const material = Material.create({
+      code,
+      description,
+      unit,
+      type,
+      contractId: new UniqueEntityID(contractId),
+    });
 
     await this.materialRepository.create(material);
 

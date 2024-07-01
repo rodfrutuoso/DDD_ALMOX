@@ -1,3 +1,4 @@
+import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
 import {
   Material,
   MaterialProps,
@@ -12,6 +13,7 @@ export function makeMaterial(override: Partial<MaterialProps> = {}) {
       .toString(),
     unit: faker.helpers.arrayElement(unit),
     type: faker.helpers.arrayElement(types),
+    contractId: new UniqueEntityID,
     ...override,
   });
 

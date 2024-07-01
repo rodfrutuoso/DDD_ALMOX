@@ -6,6 +6,7 @@ import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 interface FetchMaterialUseCaseRequest {
   page: number;
   type?: string;
+  contractId: string;
 }
 
 type FetchMaterialUseCaseResponse = Eihter<
@@ -21,12 +22,14 @@ export class FetchMaterialUseCase {
   async execute({
     page,
     type,
+    contractId,
   }: FetchMaterialUseCaseRequest): Promise<FetchMaterialUseCaseResponse> {
     const materials = await this.materialRepository.findMany(
       {
         page,
       },
-      type,
+      contractId,
+      type
     );
 
     if (!materials.length) return left(new ResourceNotFoundError());

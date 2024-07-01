@@ -19,13 +19,15 @@ export class InMemoryMaterialRepository implements MaterialRepository {
 
   async findMany(
     { page }: PaginationParams,
+    contractId: string,
     type?: string
   ): Promise<Material[]> {
     const materials = this.items
       .filter(
         (material) =>
-          !type || material.type.toString() === type
+          !contractId || material.contractId.toString() === contractId
       )
+      .filter((material) => !type || material.type === type)
       .sort((a, b) => a.code - b.code)
       .slice((page - 1) * 40, page * 40);
 

@@ -7,21 +7,24 @@ import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
 let inMemoryMaterialRepository: InMemoryMaterialRepository;
 let sut: FetchMaterialUseCase;
 
-describe("Fetch Materials History", () => {
+describe("Fetch Materials", () => {
   beforeEach(() => {
     inMemoryMaterialRepository = new InMemoryMaterialRepository();
     sut = new FetchMaterialUseCase(inMemoryMaterialRepository);
   });
 
-  it("should be able to fetch physical documents history sorting by name", async () => {
+  it("should be able to fetch physical documents sorting by name", async () => {
     const newMaterial1 = makeMaterial({
       code: 123456,
+      contractId: new UniqueEntityID("contrato-1"),
     });
     const newMaterial2 = makeMaterial({
       code: 123451,
+      contractId: new UniqueEntityID("contrato-1"),
     });
     const newMaterial3 = makeMaterial({
       code: 123459,
+      contractId: new UniqueEntityID("contrato-1"),
     });
 
     await inMemoryMaterialRepository.create(newMaterial1);
@@ -30,6 +33,7 @@ describe("Fetch Materials History", () => {
 
     const result = await sut.execute({
       page: 1,
+      contractId: "contrato-1",
     });
 
     expect(result.isRight()).toBeTruthy();
@@ -47,26 +51,32 @@ describe("Fetch Materials History", () => {
       ]);
   });
 
-  it("should be able to fetch paginated materials history", async () => {
+  it("should be able to fetch paginated materials", async () => {
     for (let i = 1; i <= 45; i++) {
-      await inMemoryMaterialRepository.create(makeMaterial());
+      await inMemoryMaterialRepository.create(
+        makeMaterial({ contractId: new UniqueEntityID("contrato-1") })
+      );
     }
 
     const result = await sut.execute({
       page: 2,
+      contractId: "contrato-1",
     });
     if (result.isRight()) expect(result.value.materials).toHaveLength(5);
   });
-  
-  it("should be able to fetch materials history by type", async () => {
+
+  it("should be able to fetch materials by type", async () => {
     const newMaterial1 = makeMaterial({
-      type: "CONCRETO"
+      type: "CONCRETO",
+      contractId: new UniqueEntityID("contrato-1"),
     });
     const newMaterial2 = makeMaterial({
-      type: "FERRAGEM"
+      type: "FERRAGEM",
+      contractId: new UniqueEntityID("contrato-1"),
     });
     const newMaterial3 = makeMaterial({
-      type: "CONCRETO"
+      type: "CONCRETO",
+      contractId: new UniqueEntityID("contrato-1"),
     });
 
     await inMemoryMaterialRepository.create(newMaterial1);
@@ -75,11 +85,35 @@ describe("Fetch Materials History", () => {
 
     const result = await sut.execute({
       page: 1,
-      type: "CONCRETO"
+      type: "CONCRETO",
+      contractId: "contrato-1",
     });
 
     expect(result.isRight()).toBeTruthy();
-    if (result.isRight())
-      expect(result.value.materials).toHaveLength(2)
+    if (result.isRight()) expect(result.value.materials).toHaveLength(2);
+  });
+
+  it("should be able to fetch materials by contract", async () => {
+    const newMaterial1 = makeMaterial({
+      contractId: new UniqueEntityID("contrato-1"),
+    });
+    const newMaterial2 = makeMaterial({
+      contractId: new UniqueEntityID("contrato-1"),
+    });
+    const newMaterial3 = makeMaterial({
+      contractId: new UniqueEntityID("contrato-2"),
+    });
+
+    await inMemoryMaterialRepository.create(newMaterial1);
+    await inMemoryMaterialRepository.create(newMaterial2);
+    await inMemoryMaterialRepository.create(newMaterial3);
+
+    const result = await sut.execute({
+      page: 1,
+      contractId: "contrato-1",
+    });
+
+    expect(result.isRight()).toBeTruthy();
+    if (result.isRight()) expect(result.value.materials).toHaveLength(2);
   });
 });

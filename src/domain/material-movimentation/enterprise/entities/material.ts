@@ -6,6 +6,7 @@ export interface MaterialProps {
   description: string;
   type: string;
   unit: string;
+  contractId: UniqueEntityID;
 }
 
 export class Material extends Entity<MaterialProps> {
@@ -19,6 +20,10 @@ export class Material extends Entity<MaterialProps> {
 
   get unit() {
     return this.props.unit;
+  }
+
+  get contractId() {
+    return this.props.contractId;
   }
 
   set description(description: string) {

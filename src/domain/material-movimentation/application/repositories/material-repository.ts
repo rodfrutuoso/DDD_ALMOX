@@ -4,5 +4,9 @@ import { Material } from "../../enterprise/entities/material";
 export interface MaterialRepository {
   create(Material: Material): Promise<void>;
   findByCode(code: number): Promise<Material | null>;
-  findMany(params: PaginationParams, type?: string): Promise<Material[]>;
+  findMany(
+    params: PaginationParams,
+    contractId: String,
+    type?: string
+  ): Promise<Material[]>;
 }

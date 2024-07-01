@@ -58,4 +58,10 @@ export class InMemoryPhysicalDocumentRepository
 
     return physicalDocuments;
   }
+
+  async delete(physicalDocumentId: string) {
+    const itemIndex = this.items.findIndex((item) => item.id.toString() == physicalDocumentId);
+
+    this.items.splice(itemIndex, 1);
+  }
 }
