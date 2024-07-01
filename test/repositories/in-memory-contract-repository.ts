@@ -1,3 +1,4 @@
+import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { ContractRepository } from "../../src/domain/material-movimentation/application/repositories/contract-repository";
 import { Contract } from "../../src/domain/material-movimentation/enterprise/entities/contract";
 
@@ -16,5 +17,15 @@ export class InMemoryContractRepository implements ContractRepository {
 
   async create(contract: Contract) {
     this.items.push(contract);
+  }
+
+  async findMany(
+    { page }: PaginationParams,
+  ): Promise<Contract[]> {
+    const contracts = this.items
+      .sort((a, b) => a.contractName.localeCompare(b.contractName))
+      .slice((page - 1) * 40, page * 40);
+
+    return contracts;
   }
 }

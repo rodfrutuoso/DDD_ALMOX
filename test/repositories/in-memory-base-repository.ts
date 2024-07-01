@@ -1,3 +1,4 @@
+import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { BaseRepository } from "../../src/domain/material-movimentation/application/repositories/base-repository";
 import { Base } from "../../src/domain/material-movimentation/enterprise/entities/base";
 
@@ -16,5 +17,15 @@ export class InMemoryBaseRepository implements BaseRepository {
 
   async create(base: Base) {
     this.items.push(base);
+  }
+
+  async findMany(
+    { page }: PaginationParams,
+  ): Promise<Base[]> {
+    const bases = this.items
+      .sort((a, b) => a.baseName.localeCompare(b.baseName))
+      .slice((page - 1) * 40, page * 40);
+
+    return bases;
   }
 }
