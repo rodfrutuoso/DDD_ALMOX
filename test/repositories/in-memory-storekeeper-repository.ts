@@ -1,4 +1,5 @@
 import { UniqueEntityID } from "../../src/core/entities/unique-entity-id";
+import { PaginationParams } from "../../src/core/repositories/pagination-params";
 import { StorekeeperRepository } from "../../src/domain/material-movimentation/application/repositories/storekeeper-repository";
 import { Storekeeper } from "../../src/domain/material-movimentation/enterprise/entities/storekeeper";
 
@@ -27,5 +28,20 @@ export class InMemoryStorekeeperRepository implements StorekeeperRepository {
     if (!storekeeper) return null;
 
     return storekeeper;
+  }
+
+  async findMany(
+    { page }: PaginationParams,
+    baseId?: string
+  ): Promise<Storekeeper[]> {
+    const storekeepers = this.items
+      .filter(
+        (storekeeper) =>
+          !baseId || storekeeper.baseId.toString() === baseId
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice((page - 1) * 40, page * 40);
+
+    return storekeepers;
   }
 }

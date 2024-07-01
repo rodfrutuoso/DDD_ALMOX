@@ -31,6 +31,10 @@ export class Storekeeper extends Entity<StorekeeperProps> {
     return this.props.type;
   }
 
+  get baseId() {
+    return this.props.baseId;
+  }
+
   set type(type: string) {
     this.props.type = type;
   }

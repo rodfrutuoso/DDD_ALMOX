@@ -1,4 +1,5 @@
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
+import { PaginationParams } from "../../../../core/repositories/pagination-params";
 import { Storekeeper } from "../../enterprise/entities/storekeeper";
 
 export interface StorekeeperRepository {
@@ -6,4 +7,8 @@ export interface StorekeeperRepository {
   delete(StorekeeperId: string): Promise<void>;
   save(torekeeper: Storekeeper): Promise<void>;
   findById(StorekeeperId: string): Promise<Storekeeper | null>;
+  findMany(
+    params: PaginationParams,
+    baseId?: string
+  ): Promise<Storekeeper[]>;
 }
