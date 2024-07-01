@@ -25,7 +25,7 @@ export class Movimentation extends MaterialPerProject<MovimentationProps> {
     props: Optional<MovimentationProps, "createdAt">,
     id?: UniqueEntityID
   ) {
-    const transferRegister = new Movimentation(
+    const movimentation = new Movimentation(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
@@ -33,6 +33,6 @@ export class Movimentation extends MaterialPerProject<MovimentationProps> {
       id
     );
 
-    return transferRegister;
+    return movimentation;
   }
 }

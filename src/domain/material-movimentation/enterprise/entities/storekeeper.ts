@@ -1,10 +1,11 @@
 import { Entity } from "../../../../core/entities/entity";
 import { UniqueEntityID } from "../../../../core/entities/unique-entity-id";
+import { Optional } from "../../../../core/types/optional";
 
 export interface StorekeeperProps {
   name: string;
   email: string;
-  cpf: number;
+  cpf: string;
   type: string;
   baseId: UniqueEntityID;
   status: string;
@@ -47,8 +48,17 @@ export class Storekeeper extends Entity<StorekeeperProps> {
     this.props.baseId = baseId;
   }
 
-  static create(props: StorekeeperProps, id?: UniqueEntityID) {
-    const storekeeper = new Storekeeper(props, id);
+  static create(
+    props: Optional<StorekeeperProps, "status">,
+    id?: UniqueEntityID
+  ) {
+    const storekeeper = new Storekeeper(
+      {
+        ...props,
+        status: props.status ?? "ativo",
+      },
+      id
+    );
 
     return storekeeper;
   }

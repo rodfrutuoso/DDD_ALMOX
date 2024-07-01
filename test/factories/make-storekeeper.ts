@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker";
 export function makeStorekeeper(override: Partial<StorekeeperProps> = {}) {
   const storekeeper = Storekeeper.create({
     name: faker.person.fullName(),
-    cpf: faker.number.int({ min: 100000000, max: 10000000000 }),
+    cpf: faker.number.int({ min: 100000000, max: 10000000000 }).toString(),
     baseId: new UniqueEntityID(),
     email: faker.internet.email({ provider: "ecoeletrica.com.br" }),
     status: faker.helpers.arrayElement(status),
